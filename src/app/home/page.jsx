@@ -7,11 +7,12 @@ import AboutSection from "@/components/sections/AboutSection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import VideoTestimonials from "@/components/sections/VideoTestimonials";
 
-import { FloatingWA } from "@/components/ui";
+import { FloatingButtons, FloatingWA } from "@/components/ui";
 import HeroSection from "@/components/sections/HeroSection";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { FeaturedOn } from "@/components/sections/Featured";
 import AstrologyHero from "@/components/zodiac/AstrologyHero";
+import ProblemsSolver from "@/components/zodiac/Problems";
 
 // --- Main Page ----
 export default function AcharyaJiLanding() {
@@ -23,7 +24,7 @@ export default function AcharyaJiLanding() {
       {/* <HeroSection /> */}
       <AstrologyHero/>
 
-      <FeaturedOn/>
+      {/* <FeaturedOn/> */}
 
       {/* --- TRUST / REVIEWS MARQUEE --- */}
       <TrustBar />
@@ -38,7 +39,8 @@ export default function AcharyaJiLanding() {
       <GallerySection />
 
       {/* --- SERVICES --- */}
-      <ServicesSection />
+      {/* <ServicesSection /> */}
+      <ProblemsSolver/>
 
       {/* --- TEXT TESTIMONIALS --- */}
       <TextTestimonials />
@@ -50,7 +52,7 @@ export default function AcharyaJiLanding() {
       <FinalCTA />
 
       {/* --- FLOATING WA --- */}
-      <FloatingWA />
+      <FloatingButtons />
 
     </div>
   );

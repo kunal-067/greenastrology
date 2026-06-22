@@ -1,34 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { WA_LINK } from "@/lib/constants";
 
-const navLinks = [
-  {
-    name: "Love Back",
-    href: "/love-back",
-  },
-  {
-    name: "Relationship Issues",
-    href: "/relationship-problems",
-  },
-  {
-    name: "Divorce Guidance",
-    href: "/divorce-problem",
-  },
-  {
-    name: "Testimonials",
-    href: "#testimonials",
-  },
-  {
-    name: "Gallery",
-    href: "#gallery",
-  },
-  {
-    name: "FAQ",
-    href: "#faq",
-  },
+const NAV_LINKS = [
+  { name: "Love Back",           href: "/love-back"            },
+  { name: "Relationship Issues", href: "/relationship-problems" },
+  { name: "Divorce Guidance",    href: "/divorce-problem"       },
+  { name: "Testimonials",        href: "#testimonials"          },
+  { name: "Gallery",             href: "#gallery"               },
+  { name: "FAQ",                 href: "#faq"                   },
+];
+
+const SOCIAL = [
+  { label: "in", href: "#" },
+  { label: "f",  href: "#" },
+  { label: "x",  href: "#" },
+  { label: "yt", href: "#" },
 ];
 
 export default function Navbar() {
@@ -36,103 +25,256 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0.5 left-0 right-0 z-50 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="mt-4 flex items-center justify-between px-6 py-3 rounded-2xl glass border dark:border-white/10 border-gray-200/60 shadow-xl shadow-black/20">
-            {/* Logo */}
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-linear-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
-                A
-              </div>
-              <span
-                className="font-bold text-lg text-gray-900 dark:text-white"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                Acharya Ji
-              </span>
-            </div>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@400;500;600&display=swap');
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-sm text-gray-600 dark:text-gray-300 hover:text-pink-500 transition-colors font-medium"
-                >
-                  {link.name}
+        .cn-nav {
+          position: fixed; top: 0; left: 0; right: 0;
+          z-index: 50;
+          font-family: 'Raleway', sans-serif;
+          border-bottom: 1px solid rgba(74,163,89,0.12);
+          background: rgba(6,14,8,0.82);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+        }
+
+        .cn-inner {
+          max-width: 80rem; margin: 0 auto;
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 16px 40px;
+        }
+
+        /* logo */
+        .cn-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .cn-logo-name {
+          font-family: 'Cinzel', serif; font-size: 15px;
+          letter-spacing: 4px; color: #7ecc8f; text-transform: uppercase;
+        }
+
+        /* desktop links */
+        .cn-links { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+        .cn-links a {
+          color: rgba(180,220,185,0.55); text-decoration: none;
+          font-size: 11.5px; letter-spacing: 1.5px; text-transform: uppercase;
+          transition: color .2s;
+        }
+        .cn-links a:hover { color: #7ecc8f; }
+
+        /* right cluster */
+        .cn-right { display: flex; align-items: center; gap: 10px; }
+
+        /* social pills */
+        .cn-social { display: flex; gap: 7px; }
+        .cn-pill {
+          width: 32px; height: 32px; border-radius: 50%;
+          border: 1px solid rgba(74,163,89,0.28); background: transparent;
+          color: rgba(180,220,185,0.5); display: flex; align-items: center;
+          justify-content: center; font-size: 10px; font-weight: 600;
+          letter-spacing: 0.5px; cursor: pointer; text-decoration: none;
+          font-family: 'Raleway', sans-serif; text-transform: lowercase;
+          transition: all .2s;
+        }
+        .cn-pill:hover { border-color: rgba(93,207,114,0.6); color: #5dcf72; background: rgba(30,107,48,0.15); }
+
+        /* WA button */
+        .cn-wa {
+          display: inline-flex; align-items: center; gap: 7px;
+          padding: 9px 20px; border-radius: 3px;
+          background: #1e6b30; color: #c8eecf;
+          font-family: 'Raleway', sans-serif; font-size: 10.5px;
+          font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+          border: 1px solid rgba(93,207,114,0.25); cursor: pointer;
+          text-decoration: none;
+          box-shadow: 0 0 20px rgba(30,107,48,0.35);
+          transition: all .25s;
+        }
+        .cn-wa:hover { background: #25883d; box-shadow: 0 0 30px rgba(30,107,48,0.55); }
+        .cn-wa-dot { width: 6px; height: 6px; border-radius: 50%; background: #9edaab; animation: cn-pulse 1.8s ease-in-out infinite; }
+        @keyframes cn-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.75)} }
+
+        /* hamburger */
+        .cn-menu-btn {
+          display: none; background: transparent; border: 1px solid rgba(74,163,89,0.3);
+          border-radius: 6px; padding: 6px; color: #5dcf72; cursor: pointer;
+          transition: all .2s;
+        }
+        .cn-menu-btn:hover { border-color: rgba(93,207,114,0.6); background: rgba(30,107,48,0.15); }
+
+        /* overlay */
+        .cn-overlay {
+          position: fixed; inset: 0; background: rgba(6,14,8,0.7);
+          z-index: 60; transition: opacity .3s;
+          backdrop-filter: blur(4px);
+        }
+
+        /* sidebar */
+        .cn-sidebar {
+          position: fixed; top: 0; right: 0;
+          height: 100dvh; width: 280px;
+          background: #060e08;
+          border-left: 1px solid rgba(74,163,89,0.18);
+          z-index: 70; transition: transform .3s cubic-bezier(.25,.46,.45,.94);
+          display: flex; flex-direction: column;
+          font-family: 'Raleway', sans-serif;
+        }
+
+        .cn-sidebar-head {
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 20px 24px;
+          border-bottom: 1px solid rgba(74,163,89,0.12);
+        }
+        .cn-sidebar-title { font-family:'Cinzel',serif; font-size:13px; letter-spacing:3px; color:#7ecc8f; text-transform:uppercase; }
+        .cn-close-btn {
+          width: 32px; height: 32px; border-radius: 50%;
+          border: 1px solid rgba(74,163,89,0.3); background: transparent;
+          color: #5dcf72; display: flex; align-items: center; justify-content: center;
+          cursor: pointer; transition: all .2s;
+        }
+        .cn-close-btn:hover { border-color: rgba(93,207,114,0.6); background: rgba(30,107,48,0.15); }
+
+        .cn-sidebar-links { display: flex; flex-direction: column; padding: 12px 0; flex: 1; overflow-y: auto; }
+        .cn-sidebar-link {
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 14px 24px;
+          border-bottom: 1px solid rgba(74,163,89,0.08);
+          color: rgba(180,220,185,0.6); text-decoration: none;
+          font-size: 11.5px; letter-spacing: 1.5px; text-transform: uppercase;
+          transition: all .2s;
+        }
+        .cn-sidebar-link:hover { color: #7ecc8f; background: rgba(30,107,48,0.08); padding-left: 28px; }
+        .cn-sidebar-link:hover .cn-link-arrow { opacity: 1; transform: translateX(0); }
+        .cn-link-arrow { opacity: 0; transform: translateX(-4px); transition: all .2s; color: #4db86a; }
+
+        .cn-sidebar-foot {
+          padding: 20px 24px;
+          border-top: 1px solid rgba(74,163,89,0.12);
+        }
+        .cn-sidebar-wa {
+          display: flex; align-items: center; justify-content: center; gap: 8px;
+          padding: 13px 20px; border-radius: 3px;
+          background: #1e6b30; color: #c8eecf;
+          font-family: 'Raleway', sans-serif; font-size: 11px;
+          font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+          border: 1px solid rgba(93,207,114,0.25); text-decoration: none;
+          box-shadow: 0 0 24px rgba(30,107,48,0.4);
+          transition: all .25s;
+        }
+        .cn-sidebar-wa:hover { background: #25883d; box-shadow: 0 0 36px rgba(30,107,48,0.6); }
+
+        /* responsive */
+        @media (max-width: 1024px) {
+          .cn-links, .cn-social, .cn-wa { display: none !important; }
+          .cn-menu-btn { display: flex; }
+          .cn-inner { padding: 14px 20px; }
+        }
+      `}</style>
+
+      {/* ── Navbar ── */}
+      <nav className="cn-nav">
+        <div className="cn-inner">
+
+          {/* Logo */}
+          <a href="/" className="cn-logo">
+            <svg width="32" height="32" viewBox="0 0 34 34" fill="none">
+              <rect x="17" y="1" width="22" height="22" rx="2" transform="rotate(45 17 1)"
+                fill="rgba(30,107,48,0.35)" stroke="rgba(93,207,114,0.65)" strokeWidth="1"/>
+              <rect x="17" y="7" width="14" height="14" rx="1" transform="rotate(45 17 7)"
+                fill="rgba(93,207,114,0.2)" stroke="rgba(93,207,114,0.4)" strokeWidth="0.5"/>
+              <circle cx="17" cy="17" r="3" fill="#5dcf72"/>
+            </svg>
+            <span className="cn-logo-name">Acharya Ji</span>
+          </a>
+
+          {/* Desktop links */}
+          <ul className="cn-links">
+            {NAV_LINKS.map((l) => (
+              <li key={l.name}><a href={l.href}>{l.name}</a></li>
+            ))}
+          </ul>
+
+          {/* Right cluster */}
+          <div className="cn-right">
+            {/* Social pills */}
+            <div className="cn-social">
+              {SOCIAL.map((s) => (
+                <a key={s.label} href={s.href} className="cn-pill" aria-label={s.label}>
+                  {s.label}
                 </a>
               ))}
             </div>
 
-            {/* Desktop WhatsApp */}
-            <div className="flex gap-8">
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden justify-self-end md:flex items-center gap-2 px-5 py-2.5 rounded-full bg-linear-to-r from-pink-500 to-fuchsia-600 text-white text-sm font-semibold shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 transition-shadow"
-            >
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            {/* WhatsApp CTA */}
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="cn-wa">
+              <span className="cn-wa-dot" />
               WhatsApp
             </a>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsOpen(true)}
-              className="lg:hidden text-gray-900 dark:text-white"
-            >
-              <Menu size={26} />
+            {/* Hamburger */}
+            <button className="cn-menu-btn" onClick={() => setIsOpen(true)} aria-label="Open menu">
+              <Menu size={20} />
             </button>
-            </div>
           </div>
+
         </div>
       </nav>
 
-      {/* Overlay */}
-      <div
-        onClick={() => setIsOpen(false)}
-        className={`fixed inset-0 bg-black/50 z-60 transition-opacity duration-300 lg:hidden ${
-          isOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-      />
+      {/* ── Overlay ── */}
+      {isOpen && (
+        <div
+          className="cn-overlay"
+          style={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? "auto" : "none" }}
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-      {/* Mobile Sidebar */}
+      {/* ── Mobile Sidebar ── */}
       <div
-        className={`fixed top-0 right-0 h-screen w-70 bg-[#F5F0EB] dark:bg-zinc-950 z-70 shadow-2xl transition-transform duration-300 lg:hidden ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className="cn-sidebar"
+        style={{ transform: isOpen ? "translateX(0)" : "translateX(100%)" }}
       >
-        <div className="flex items-center justify-between p-5 border-b border-gray-200 dark:border-white/10">
-          <div className="font-bold text-lg">Menu</div>
-
-          <button onClick={() => setIsOpen(false)}>
-            <X size={24} />
+        {/* header */}
+        <div className="cn-sidebar-head">
+          <span className="cn-sidebar-title">Menu</span>
+          <button className="cn-close-btn" onClick={() => setIsOpen(false)} aria-label="Close menu">
+            <X size={16} />
           </button>
         </div>
 
-        <div className="flex flex-col p-5">
-          {navLinks.map((link) => (
+        {/* links */}
+        <div className="cn-sidebar-links">
+          {NAV_LINKS.map((l) => (
             <a
-              key={link.name}
-              href={link.href}
+              key={l.name}
+              href={l.href}
+              className="cn-sidebar-link"
               onClick={() => setIsOpen(false)}
-              className="py-4 border-b border-gray-100 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:text-pink-500 font-medium"
             >
-              {link.name}
+              {l.name}
+              <ArrowRight size={13} className="cn-link-arrow" />
             </a>
           ))}
 
+          {/* social row inside sidebar */}
+          <div style={{ display:"flex", gap:"8px", padding:"20px 24px 0" }}>
+            {SOCIAL.map((s) => (
+              <a key={s.label} href={s.href} className="cn-pill" aria-label={s.label}>
+                {s.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* footer WA button */}
+        <div className="cn-sidebar-foot">
           <a
             href={WA_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-linear-to-r from-pink-500 to-fuchsia-600 text-white font-semibold"
+            className="cn-sidebar-wa"
+            onClick={() => setIsOpen(false)}
           >
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            WhatsApp
+            <span className="cn-wa-dot" />
+            Chat on WhatsApp
           </a>
         </div>
       </div>

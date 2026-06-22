@@ -25,6 +25,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef, Children } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // ── tiny hook: returns true when window width < 768px ────────────────────────
 function useIsMobile() {
@@ -39,27 +40,15 @@ function useIsMobile() {
   return mobile;
 }
 
-// ── Arrow SVGs ────────────────────────────────────────────────────────────────
-const ChevronLeft = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-  </svg>
-);
-const ChevronRight = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-  </svg>
-);
-
 // ── Main component ────────────────────────────────────────────────────────────
 export function MobileCarousel({
   children,
   autoInterval = 0,
   showDots = true,
   showArrows = true,
-  dotActiveClass = "w-6 h-2.5 bg-pink-500",
-  dotInactiveClass = "w-2.5 h-2.5 bg-gray-300 dark:bg-white/15 hover:bg-pink-300 dark:hover:bg-pink-400/40",
-  arrowClass = "",
+  dotActiveClass = "w-6 h-2 bg-gradient-to-r from-[#5dcf72] to-[#9edaab]",
+  dotInactiveClass = "w-2 h-2 bg-[rgba(74,163,89,0.25)] hover:bg-[rgba(93,207,114,0.5)]",
+  arrowClass = "text-[#4db86a] hover:text-[#5dcf72] transition-colors",
   className = "",
 }) {
   const isMobile = useIsMobile();
@@ -92,12 +81,11 @@ export function MobileCarousel({
     return () => clearInterval(autoRef.current);
   }, [resetAuto]);
 
-  // Keep index valid if total changes
   useEffect(() => {
     setIndex((i) => Math.min(i, total - 1));
   }, [total]);
 
-  // ── Pointer drag ────────────────────────────────────────────────────────────
+  // ── Pointer drag ─────────────────────────────────────────────────────────────
   const onPointerDown = (e) => {
     setDragging(true);
     dragStart.current = e.clientX;
@@ -115,14 +103,15 @@ export function MobileCarousel({
     dragStart.current = null;
   };
 
-  // ── On desktop: render children unwrapped so parent grid/flex owns layout ──
+  // ── Desktop: unwrap so parent grid/flex owns layout ──────────────────────────
   if (!isMobile) return <>{children}</>;
 
-  // ── On mobile: full carousel ────────────────────────────────────────────────
+  // ── Mobile: full carousel ────────────────────────────────────────────────────
   return (
     <div className={`relative w-full ${className}`}>
-      {/* Track clip */}
-      <div className="overflow-hidden">
+
+      {/* Track */}
+      <div className="overflow-hidden rounded-2xl">
         <div
           ref={trackRef}
           onPointerDown={onPointerDown}
@@ -160,15 +149,18 @@ export function MobileCarousel({
             className={`
               absolute -left-3 top-1/2 -translate-y-1/2 z-10
               w-9 h-9 rounded-full flex items-center justify-center
-              bg-white dark:bg-white/8 border border-gray-200/60 dark:border-white/10
-              shadow-md text-gray-500 dark:text-gray-300
-              hover:bg-pink-50 dark:hover:bg-pink-500/10 hover:border-pink-300/50 hover:text-pink-500
-              disabled:opacity-25 disabled:cursor-not-allowed
+              bg-[#0d1c10]
+              border border-[rgba(74,163,89,0.3)]
+              text-[#4db86a]
+              hover:bg-[rgba(30,107,48,0.3)]
+              hover:border-[rgba(93,207,114,0.6)]
+              hover:shadow-[0_0_12px_rgba(77,184,106,0.25)]
+              disabled:opacity-20 disabled:cursor-not-allowed
               transition-all duration-200 select-none
               ${arrowClass}
             `}
           >
-            <ChevronLeft />
+            <ChevronLeft size={16} strokeWidth={2.5} />
           </button>
 
           <button
@@ -178,15 +170,18 @@ export function MobileCarousel({
             className={`
               absolute -right-3 top-1/2 -translate-y-1/2 z-10
               w-9 h-9 rounded-full flex items-center justify-center
-              bg-white dark:bg-white/8 border border-gray-200/60 dark:border-white/10
-              shadow-md text-gray-500 dark:text-gray-300
-              hover:bg-pink-50 dark:hover:bg-pink-500/10 hover:border-pink-300/50 hover:text-pink-500
-              disabled:opacity-25 disabled:cursor-not-allowed
+              bg-[#0d1c10]
+              border border-[rgba(74,163,89,0.3)]
+              text-[#4db86a]
+              hover:bg-[rgba(30,107,48,0.3)]
+              hover:border-[rgba(93,207,114,0.6)]
+              hover:shadow-[0_0_12px_rgba(77,184,106,0.25)]
+              disabled:opacity-20 disabled:cursor-not-allowed
               transition-all duration-200 select-none
               ${arrowClass}
             `}
           >
-            <ChevronRight />
+            <ChevronRight size={16} strokeWidth={2.5} />
           </button>
         </>
       )}
@@ -194,7 +189,10 @@ export function MobileCarousel({
       {/* Dots */}
       {showDots && total > 1 && (
         <div
-          className="mt-5 flex items-center justify-center gap-2"
+          className="mt-5 flex items-center justify-center gap-2
+                     px-4 py-2.5 rounded-full w-fit mx-auto
+                     bg-[rgba(6,14,8,0.7)] border border-[rgba(74,163,89,0.15)]
+                     backdrop-blur-sm"
           role="tablist"
           aria-label="Slide navigation"
         >
@@ -205,13 +203,16 @@ export function MobileCarousel({
               aria-selected={i === index}
               aria-label={`Go to slide ${i + 1}`}
               onClick={() => { go(i); resetAuto(); }}
-              className={`rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 ${
-                i === index ? dotActiveClass : dotInactiveClass
-              }`}
+              className={`
+                rounded-full transition-all duration-300
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4db86a]
+                ${i === index ? dotActiveClass : dotInactiveClass}
+              `}
             />
           ))}
         </div>
       )}
+
     </div>
   );
 }

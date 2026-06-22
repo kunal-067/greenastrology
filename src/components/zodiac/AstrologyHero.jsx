@@ -5,412 +5,376 @@ import ZodiacWheel from "./Zodiacwheel";
 
 const NAV_LINKS = ["Home", "About Us", "Gallery", "Blogs", "Contact Us"];
 
+const ZODIAC = ["♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓"];
+
+function ZodiacRing({ size }) {
+  const r = size / 2 - 22;
+  const cx = size / 2;
+  const cy = size / 2;
+  return (
+    <svg
+      width={size} height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      className="absolute inset-0 animate-[cosmicSpin_60s_linear_infinite]"
+      aria-hidden="true"
+    >
+      <circle cx={cx} cy={cy} r={size / 2 - 6} fill="none" stroke="rgba(77,184,106,0.18)" strokeWidth="1" />
+      <circle cx={cx} cy={cy} r={size / 2 - 14} fill="none" stroke="rgba(77,184,106,0.10)" strokeWidth="0.5" />
+      {Array.from({ length: 36 }).map((_, i) => {
+        const angle = (i * 10 * Math.PI) / 180;
+        const isMajor = i % 3 === 0;
+        const inner = size / 2 - (isMajor ? 20 : 16);
+        const outer = size / 2 - 6;
+        const cos = Math.cos(angle - Math.PI / 2);
+        const sin = Math.sin(angle - Math.PI / 2);
+        return (
+          <line key={i}
+            x1={cx + cos * inner} y1={cy + sin * inner}
+            x2={cx + cos * outer} y2={cy + sin * outer}
+            stroke={isMajor ? "rgba(77,184,106,0.4)" : "rgba(77,184,106,0.18)"}
+            strokeWidth={isMajor ? 1 : 0.5}
+          />
+        );
+      })}
+      {ZODIAC.map((sym, i) => {
+        const angle = (i * 30 * Math.PI) / 180 - Math.PI / 2;
+        return (
+          <text key={i}
+            x={cx + Math.cos(angle) * r}
+            y={cy + Math.sin(angle) * r}
+            textAnchor="middle" dominantBaseline="central"
+            fontSize="13" fill="rgba(126,204,143,0.7)"
+            style={{ fontFamily: "serif" }}
+          >{sym}</text>
+        );
+      })}
+      <circle cx={cx} cy={cy} r={size / 2 - 42} fill="none" stroke="rgba(77,184,106,0.12)" strokeWidth="0.5" strokeDasharray="4 6" />
+    </svg>
+  );
+}
+
+function OrbitDot() {
+  return (
+    <div className="absolute inset-0 animate-[cosmicSpin_8s_linear_infinite] pointer-events-none">
+      <div
+        className="absolute top-2 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-green-500"
+        style={{ boxShadow: "0 0 10px #4db86a, 0 0 22px rgba(77,184,106,0.5)" }}
+      />
+    </div>
+  );
+}
+
 export default function AstrologyHero() {
-    const canvasRef = useRef(null);
+  const canvasRef = useRef(null);
 
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    function draw() {
+      const wrap = canvas.parentElement;
+      canvas.width = wrap.offsetWidth;
+      canvas.height = wrap.offsetHeight;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < 160; i++) {
+        const x = Math.random() * canvas.width, y = Math.random() * canvas.height;
+        const r = Math.random() * 1.4;
+        const a = 0.12 + Math.random() * 0.5;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${120 + Math.floor(Math.random() * 80)},220,${140 + Math.floor(Math.random() * 60)},${a})`;
+        ctx.fill();
+      }
+    }
+    draw();
+    const obs = new ResizeObserver(draw);
+    obs.observe(canvas.parentElement);
+    return () => obs.disconnect();
+  }, []);
 
-        function drawStars() {
-            const wrap = canvas.parentElement;
-            canvas.width = wrap.offsetWidth;
-            canvas.height = wrap.offsetHeight;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < 130; i++) {
-                const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height;
-                const r = Math.random() * 1.3;
-                const a = 0.15 + Math.random() * 0.55;
-                const g = 120 + Math.floor(Math.random() * 80);
-                const b = 140 + Math.floor(Math.random() * 60);
-                ctx.beginPath();
-                ctx.arc(x, y, r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${g}, 220, ${b}, ${a})`;
-                ctx.fill();
-            }
-        }
-
-        drawStars();
-        const observer = new ResizeObserver(drawStars);
-        observer.observe(canvas.parentElement);
-        return () => observer.disconnect();
-    }, []);
-
-    return (
-        <>
-            <style>{`
+  return (
+    <>
+      {/* Only keyframes + Google Fonts — everything else is Tailwind */}
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500&display=swap');
-
-        .cosmic-hero {
-          background: #0a110d;
-          position: relative;
-          overflow: hidden;
-          font-family: 'Raleway', sans-serif;
-          border-radius: 14px;
-          min-height: 100vh;
+        @keyframes cosmicSpin   { to { transform: rotate(360deg);  } }
+        @keyframes counterSpin  { to { transform: rotate(-360deg); } }
+        @keyframes pulseGlow    {
+          0%,100% { opacity:.45; transform:scale(1);    }
+          50%      { opacity:1;   transform:scale(1.1); }
         }
-
-        .cosmic-star-canvas {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        /* NAV */
-        .cosmic-nav {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 20px 48px;
-          position: relative;
-          z-index: 10;
-          border-bottom: 0.5px solid rgba(74,163,89,0.18);
-        }
-
-        .cosmic-logo {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .cosmic-logo-diamond {
-          width: 34px;
-          height: 34px;
-          background: linear-gradient(135deg, #1a4a25, #2e8b45);
-          clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-        }
-
-        .cosmic-logo-text {
-          font-family: 'Cinzel', serif;
-          font-size: 15px;
-          color: #7ecc8f;
-          letter-spacing: 3px;
-          text-transform: uppercase;
-        }
-
-        .cosmic-nav-links {
-          display: flex;
-          gap: 30px;
-          list-style: none;
-          margin: 0;
-          padding: 0;
-        }
-
-        .cosmic-nav-links a {
-          color: rgba(200,230,205,0.65);
-          text-decoration: none;
-          font-size: 11.5px;
-          letter-spacing: 1.5px;
-          text-transform: uppercase;
-          transition: color 0.2s;
-        }
-
-        .cosmic-nav-links a:hover {
-          color: #7ecc8f;
-        }
-
-        .cosmic-nav-icons {
-          display: flex;
-          gap: 10px;
-        }
-
-        .cosmic-nav-icon {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          border: 0.5px solid rgba(74,163,89,0.4);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(200,230,205,0.6);
-          font-size: 13px;
-          transition: border-color 0.2s, color 0.2s;
-          cursor: pointer;
-        }
-
-        .cosmic-nav-icon:hover {
-          border-color: #4db86a;
-          color: #7ecc8f;
-        }
-
-        /* HERO BODY */
-        .cosmic-body {
-          display: flex;
-          align-items: center;
-          padding: 60px 48px 70px;
-          position: relative;
-          z-index: 10;
-          gap: 48px;
-        }
-
-        .cosmic-left {
-          flex: 1.1;
-        }
-
-        .cosmic-eyebrow {
-          font-size: 10px;
-          letter-spacing: 4px;
-          text-transform: uppercase;
-          color: #4db86a;
-          margin-bottom: 18px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .cosmic-eyebrow::before {
-          content: '';
-          width: 26px;
-          height: 0.5px;
-          background: #4db86a;
-          display: inline-block;
-        }
-
-        .cosmic-title {
-          font-family: 'Cinzel', serif;
-          font-size: 42px;
-          font-weight: 700;
-          line-height: 1.22;
-          color: #e8f5ea;
-          margin: 0 0 20px;
-        }
-
-        .cosmic-title-accent {
-          color: #5dcf72;
-        }
-
-        .cosmic-desc {
-          font-size: 14px;
-          line-height: 1.85;
-          color: rgba(180,220,185,0.62);
-          max-width: 360px;
-          margin-bottom: 34px;
-        }
-
-        .cosmic-buttons {
-          display: flex;
-          gap: 14px;
-        }
-
-        .cosmic-btn-primary {
-          background: #1e6b30;
-          color: #c8eecf;
-          border: none;
-          padding: 13px 28px;
-          border-radius: 3px;
-          font-family: 'Raleway', sans-serif;
-          font-size: 11px;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-
-        .cosmic-btn-primary:hover {
-          background: #25883d;
-        }
-
-        .cosmic-btn-outline {
-          background: transparent;
-          color: #7ecc8f;
-          border: 0.5px solid rgba(74,163,89,0.5);
-          padding: 13px 28px;
-          border-radius: 3px;
-          font-family: 'Raleway', sans-serif;
-          font-size: 11px;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: border-color 0.2s, color 0.2s;
-        }
-
-        .cosmic-btn-outline:hover {
-          border-color: #4db86a;
-          color: #9edaab;
-        }
-
-        /* ZODIAC WHEEL */
-        .cosmic-right {
-          flex: 0.9;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .cosmic-zodiac-svg {
-          width: 300px;
-          height: 300px;
-          animation: cosmic-spin 60s linear infinite;
-        }
-
-        @keyframes cosmic-spin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .cosmic-zodiac-svg {
-            animation: none;
-          }
-        }
-
-        /* BOTTOM BANNER */
-        .cosmic-banner {
-          background: rgba(16, 36, 20, 0.92);
-          border-top: 0.5px solid rgba(74,163,89,0.2);
-          display: flex;
-          align-items: center;
-          padding: 26px 48px;
-          gap: 32px;
-          position: relative;
-          z-index: 10;
-        }
-
-        .cosmic-banner-icon {
-          width: 96px;
-          height: 70px;
-          border-radius: 8px;
-          background: linear-gradient(135deg, #142b18, #1e5a28);
-          flex-shrink: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 28px;
-          color: #4db86a;
-        }
-
-        .cosmic-banner-title {
-          font-family: 'Cinzel', serif;
-          font-size: 16px;
-          color: #c8eecf;
-          margin: 0 0 8px;
-          letter-spacing: 0.5px;
-        }
-
-        .cosmic-banner-desc {
-          font-size: 12.5px;
-          color: rgba(180,220,185,0.52);
-          line-height: 1.65;
-          margin: 0;
-          max-width: 380px;
-        }
-
-        .cosmic-banner-dot {
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          background: #4db86a;
-          box-shadow: 0 0 10px #4db86a;
-          flex-shrink: 0;
-          margin-left: auto;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-          .cosmic-nav { padding: 16px 20px; }
-          .cosmic-nav-links { display: none; }
-          .cosmic-body {
-            flex-direction: column;
-            padding: 40px 20px 50px;
-            gap: 36px;
-          }
-          .cosmic-title { font-size: 28px; }
-          .cosmic-zodiac-svg { width: 220px; height: 220px; }
-          .cosmic-banner { flex-direction: column; padding: 20px; gap: 16px; }
-          .cosmic-banner-dot { margin-left: 0; }
+        .font-cinzel  { font-family:'Cinzel',serif; }
+        .font-raleway { font-family:'Raleway',sans-serif; }
+        .animate-counter-spin { animation: counterSpin 40s linear infinite; }
+        .animate-pulse-glow   { animation: pulseGlow   4s  ease-in-out infinite; }
+        @media (prefers-reduced-motion:reduce) {
+          [class*="animate-"] { animation:none !important; }
         }
       `}</style>
 
-            <section className="cosmic-hero pb-12">
-                <canvas ref={canvasRef} className="cosmic-star-canvas" aria-hidden="true" />
+      <section className="font-raleway relative overflow-hidden min-h-screen" style={{ background: "#080f0a" }}>
 
-                {/* Navigation */}
-                <nav className="cosmic-nav max-w-7xl mx-auto">
-                    <div className="cosmic-logo">
-                        <div className="cosmic-logo-diamond" aria-hidden="true" />
-                        <span className="cosmic-logo-text">Acharya Ji</span>
-                    </div>
+        {/* Star canvas */}
+        <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" aria-hidden="true" />
 
-                    <ul className="cosmic-nav-links">
-                        {NAV_LINKS.map((link) => (
-                            <li key={link}>
-                                <a href="#">{link}</a>
-                            </li>
-                        ))}
-                    </ul>
+        {/* ── NAV ── */}
+        <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 py-4 md:py-5 border-b border-green-900/30 max-w-7xl mx-auto">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div
+              className="w-8 h-8 flex-shrink-0"
+              style={{
+                background: "linear-gradient(135deg,#1a4a25,#2e8b45)",
+                clipPath: "polygon(50% 0%,100% 50%,50% 100%,0% 50%)"
+              }}
+              aria-hidden="true"
+            />
+            <span className="font-cinzel text-[13px] tracking-[3px] uppercase text-green-400">Acharya Ji</span>
+          </div>
 
-                    <div className="cosmic-nav-icons">
-                        {["in", "f", "x", "yt"].map((s) => (
-                            <button key={s} className="cosmic-nav-icon" aria-label={`Social ${s}`}>
-                                <span style={{ fontSize: 11, fontWeight: 600, color: "inherit" }}>{s}</span>
-                            </button>
-                        ))}
-                    </div>
-                </nav>
+          {/* Desktop links */}
+          <ul className="hidden md:flex gap-7 list-none m-0 p-0">
+            {NAV_LINKS.map(l => (
+              <li key={l}>
+                <a href="#" className="text-green-200/50 no-underline text-[11px] tracking-[1.5px] uppercase hover:text-green-400 transition-colors">
+                  {l}
+                </a>
+              </li>
+            ))}
+          </ul>
 
-                {/* Hero Body */}
-                <div className="cosmic-body max-w-7xl mx-auto">
-                    <div className="cosmic-left">
-                        <p className="cosmic-eyebrow">Astrology &amp; Numerology</p>
+          {/* Social icons */}
+          <div className="flex gap-2">
+            {[{ s: "in", label: "LinkedIn" }, { s: "f", label: "Facebook" }, { s: "𝕏", label: "X" }, { s: "▶", label: "YouTube" }].map(({ s, label }) => (
+              <button key={s} aria-label={label}
+                className="w-7 h-7 rounded-full border border-green-700/40 flex items-center justify-center
+                           text-green-200/50 text-[10px] font-bold bg-transparent
+                           hover:border-green-500 hover:text-green-400 transition-colors cursor-pointer"
+              >{s}</button>
+            ))}
+          </div>
+        </nav>
 
-                        <h1 className="cosmic-title">
-                            Discover the{" "}
-                            <span className="cosmic-title-accent">Cosmic</span>
-                            <br />
-                            Energy that Shapes
-                            <br />
-                            Your Life
-                        </h1>
+        {/* ── HERO: DESKTOP (side-by-side) / MOBILE (stack) ── */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
 
-                        <p className="cosmic-desc">
-                            Explore the mysteries of astrology, numerology, and zodiac insights crafted
-                            to help you connect with your true self and the universe.
-                        </p>
+          {/* ── MOBILE LAYOUT ── */}
+          <div className="md:hidden flex flex-col-reverse pt-8 pb-12">
 
-                        <div className="cosmic-buttons">
-                            <button className="cosmic-btn-primary">Read More</button>
-                            <button className="cosmic-btn-outline">Contact Us</button>
-                        </div>
-                    </div>
+            {/* Left text */}
+            <div>
+              <p className="flex max-md:hidden items-center gap-3 text-[10px] tracking-[4px] uppercase text-green-500 mb-4">
+                <span className="inline-block w-5 h-px bg-green-600" />
+                Astrology &amp; Numerology
+              </p>
+              <h1 className="font-cinzel text-[clamp(28px,3.5vw,46px)] font-bold leading-[1.2] text-green-50 mb-5">
+                London's Most{" "}
+                <span style={{ color: "#5dcf72" }}>Trusted Love</span>
+                <br />&amp; Relationship
+                <br />Healer
+              </h1>
+              <p className="text-[13.5px] leading-relaxed text-green-200/55 max-w-sm mb-8">
+                Acharya Ji has helped{" "}
+                <strong className="text-green-400">thousands</strong>{" "}
+                rebuild relationships, resolve marriage problems, and find love again — across the UK.
+              </p>
+              <div className="flex gap-3">
+                <button className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
+                                   bg-green-800 text-green-100 border-none cursor-pointer
+                                   hover:bg-green-700 transition-colors">
+                  Read More
+                </button>
+                <button className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
+                                   bg-transparent text-green-400 border border-green-700/50 cursor-pointer
+                                   hover:border-green-500 transition-colors">
+                  Contact Us
+                </button>
+              </div>
+              {/* Stats */}
+              <div className="flex gap-7 mt-8 pt-6 border-t border-green-900/40">
+                {[["15k+", "Happy Clients"], ["20+", "Years Exp"], ["98%", "Success Rate"]].map(([n, l]) => (
+                  <div key={l}>
+                    <div className="font-cinzel text-2xl font-bold" style={{ color: "#5dcf72" }}>{n}</div>
+                    <div className="text-[10px] tracking-widest uppercase text-green-200/40 mt-1">{l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-                    {/* Zodiac Wheel */}
-                    <div className="relative overflow-hidden">
-                        {/* Green blur 1 */}
-                        <div className="absolute top-20 left-20 w-25 h-25 bg-green-500/20 blur-[120px] rounded-full" />
+            {/* CTA row */}
+            {/* <div className="flex gap-3 mb-8">
+              <button className="font-raleway px-5 py-2.5 rounded-sm text-[10px] tracking-[2px] uppercase
+                                 bg-green-800 text-green-100 border-none cursor-pointer
+                                 hover:bg-green-700 transition-colors">
+                Read More
+              </button>
+              <button className="font-raleway px-5 py-2.5 rounded-sm text-[10px] tracking-[2px] uppercase
+                                 bg-transparent text-green-400 border border-green-700/50 cursor-pointer
+                                 hover:border-green-500 transition-colors">
+                Contact Us
+              </button>
+            </div> */}
 
-                        {/* Green blur 2 */}
-                        <div className="absolute bottom-0 right-0 w-20 h-20 bg-emerald-500/15 blur-[100px] rounded-full" />
+            {/* FULL-WIDTH PHOTO — like reference screenshot */}
+            <div className="mb-2">
+               <p className="flex items-center gap-3 text-[10px] tracking-[4px] uppercase text-green-500 mb-4">
+                <span className="inline-block w-5 h-px bg-green-600" />
+                Astrology &amp; Numerology
+              </p>
+            
+            <div className="relative w-full rounded-2xl overflow-hidden"
+              style={{ aspectRatio: "4/5", background: "linear-gradient(160deg,#0d1f10,#05100a)" }}>
 
-                        {/* Dark overlay */}
-                        {/* <div className="absolute inset-0 bg-linear-to-br from-green-950 via-black to-black" /> */}
 
-                        {/* Content */}
-                        <div className="relative z-10">
-                           <ZodiacWheel className="h-125" />
-                        </div>
-                    </div>
+              {/* Subtle zodiac ring overlay — purely decorative, doesn't interfere with photo */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+                <ZodiacWheel />
+              </div>
+
+              {/* Photo */}
+              <img
+                src="/astrologer2-bgr.png"
+                alt="Acharya Ji — Vedic Astrologer"
+                className="absolute inset-0 w-full h-full object-cover object-top"
+                onError={e => { e.currentTarget.style.display = "none"; }}
+              />
+
+              {/* Bottom gradient */}
+              <div className="absolute inset-0"
+                style={{ background: "linear-gradient(to top,rgba(8,15,10,0.8) 0%,transparent 50%)" }} />
+
+              {/* Badge */}
+              <div className="absolute bottom-4 left-0 right-0 flex flex-col items-center z-10">
+                <span className="font-cinzel text-[13px] tracking-wide text-green-100">Acharya Ji</span>
+                <span className="text-[9px] tracking-[2px] uppercase text-green-500 mt-1">
+                  Love &amp; Relationship Specialist
+                </span>
+              </div>
+
+              {/* Tag top-right */}
+              <div className="absolute top-3 right-3 z-10
+                              px-3 py-1 rounded-full border border-green-600/50 bg-green-900/80
+                              text-[9px] tracking-[1.5px] uppercase text-green-300 backdrop-blur-sm">
+                ✦ Vedic Expert
+              </div>
+
+              {/* Stats row pinned at very bottom over gradient */}
+              {/* <div className="absolute bottom-14 left-0 right-0 flex justify-center gap-6 z-10">
+                {[["15k+","Clients"],["20+","Yrs Exp"],["98%","Success"]].map(([n,l])=>(
+                  <div key={l} className="text-center">
+                    <div className="font-cinzel text-lg font-bold" style={{color:"#5dcf72"}}>{n}</div>
+                    <div className="text-[9px] tracking-widest uppercase text-green-200/40 mt-0.5">{l}</div>
+                  </div>
+                ))}
+              </div> */}
+            </div>
+
+            </div>
+
+          </div>
+
+          {/* ── DESKTOP LAYOUT ── */}
+          <div className="hidden md:grid grid-cols-2 gap-12 items-center py-16">
+
+            {/* Left text */}
+            <div>
+              <p className="flex items-center gap-3 text-[10px] tracking-[4px] uppercase text-green-500 mb-4">
+                <span className="inline-block w-5 h-px bg-green-600" />
+                Astrology &amp; Numerology
+              </p>
+              <h1 className="font-cinzel text-[clamp(28px,3.5vw,46px)] font-bold leading-[1.2] text-green-50 mb-5">
+                London's Most{" "}
+                <span style={{ color: "#5dcf72" }}>Trusted Love</span>
+                <br />&amp; Relationship
+                <br />Healer
+              </h1>
+              <p className="text-[13.5px] leading-relaxed text-green-200/55 max-w-sm mb-8">
+                Acharya Ji has helped{" "}
+                <strong className="text-green-400">thousands</strong>{" "}
+                rebuild relationships, resolve marriage problems, and find love again — across the UK.
+              </p>
+              <div className="flex gap-3">
+                <button className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
+                                   bg-green-800 text-green-100 border-none cursor-pointer
+                                   hover:bg-green-700 transition-colors">
+                  Read More
+                </button>
+                <button className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
+                                   bg-transparent text-green-400 border border-green-700/50 cursor-pointer
+                                   hover:border-green-500 transition-colors">
+                  Contact Us
+                </button>
+              </div>
+              {/* Stats */}
+              <div className="flex gap-7 mt-8 pt-6 border-t border-green-900/40">
+                {[["15k+", "Happy Clients"], ["20+", "Years Exp"], ["98%", "Success Rate"]].map(([n, l]) => (
+                  <div key={l}>
+                    <div className="font-cinzel text-2xl font-bold" style={{ color: "#5dcf72" }}>{n}</div>
+                    <div className="text-[10px] tracking-widest uppercase text-green-200/40 mt-1">{l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: zodiac ring + portrait photo */}
+            <div className="flex items-center justify-center">
+              <div className="relative flex flex-col-reverse lg:flex-row items-center justify-center" style={{ width: 540, height: 540 }}>
+                {/* Spinning zodiac ring */}
+                <ZodiacWheel className="max-lg:w-70 max-lg:h-70 size-150" />
+
+                {/* Counter-spin inner dashed ring */}
+                <svg width="290" height="290" viewBox="0 0 290 290"
+                  className="absolute animate-counter-spin"
+                  style={{ inset: "45px", position: "absolute" }}
+                  aria-hidden="true">
+                  <circle cx="145" cy="145" r="136" fill="none" stroke="rgba(77,184,106,0.07)" strokeWidth="0.5" strokeDasharray="3 9" />
+                </svg>
+
+                {/* Glow blob */}
+                <div className="absolute w-48 h-48 rounded-full pointer-events-none animate-pulse-glow"
+                  style={{ background: "radial-gradient(circle,rgba(45,180,80,0.2) 0%,transparent 70%)" }} />
+
+                {/* Orbiting dot */}
+                <OrbitDot />
+
+                {/* Portrait card */}
+                <div
+                  className="relative max-lg:w-40 w-70 z-10 overflow-hidden border"
+                  style={{
+                    // width: 280,
+                    aspectRatio: "3/4",
+                    borderRadius: "12px 12px 80px 80px",
+                    borderColor: "rgba(77,184,106,0.35)",
+                    boxShadow: "0 0 0 6px rgba(77,184,106,0.07),0 0 40px rgba(45,180,80,0.18),0 20px 60px rgba(0,0,0,0.5)",
+                    background: "linear-gradient(160deg,#0d1f10,#05100a)"
+                  }}
+                >
+                  <img src="/astrologer2-bgr.png" alt="Acharya Ji"
+                    className="w-full h-full object-cover object-top block"
+                    onError={e => { e.currentTarget.style.display = "none"; }} />
+                  {/* gradient overlay */}
+                  <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: "linear-gradient(to top,rgba(8,15,10,0.75) 0%,transparent 45%)" }} />
+                  {/* Floating tag */}
+                  <div className="absolute top-1 right-1 z-10
+                                  px-3 py-1 rounded-full border border-green-600/50 bg-green-900/90
+                                  text-[9px] tracking-[1.5px] uppercase text-green-300 backdrop-blur-sm">
+                    ✦ Vedic Expert
+                  </div>
+                  {/* Name badge */}
+                  <div className="absolute bottom-4 left-0 right-0 flex flex-col items-center z-10">
+                    <span className="font-cinzel text-[13px] tracking-wide text-green-100">Acharya Ji</span>
+                    <span className="text-[9px] text-center tracking-[2px] uppercase text-green-500 mt-1">
+                      Love &amp; Relationship Specialist
+                    </span>
+                  </div>
                 </div>
 
-                {/* Bottom Banner */}
-                <div className="cosmic-banner max-w-7xl mx-auto rounded-xl">
-                    <div className="cosmic-banner-icon" aria-hidden="true">🕯️</div>
-                    <div>
-                        <p className="cosmic-banner-title">
-                            The Light of Astrology Guides You Toward Clarity
-                        </p>
-                        <p className="cosmic-banner-desc">
-                            Astrology is more than predictions — it&apos;s an art of understanding. We help
-                            you decode celestial messages hidden in your birth chart.
-                        </p>
-                    </div>
-                    <div className="cosmic-banner-dot" aria-hidden="true" />
-                </div>
-            </section>
-        </>
-    );
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }
-
-

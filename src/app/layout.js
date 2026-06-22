@@ -22,7 +22,7 @@ export default function RootLayout({
           <ScrollProgress />
 
           {/* ── NAV ── */}
-          {/* <Navbar /> */}
+          <Navbar />
           <main>
 
             {children}

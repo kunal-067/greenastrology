@@ -4,19 +4,19 @@ import { cn } from "@/lib/utils";
 import { SectionBadge, SectionHeading } from "../ui";
 
 const REVIEWS = [
-    { name: "Priya S.", city: "London", img: "./astrologer.png" },
-    { name: "Anita K.", city: "Birmingham", img: "./astrologer.png" },
-    { name: "Sunita R.", city: "Manchester", img: "./astrologer.png" },
-    { name: "Meera P.", city: "Leicester", img: "./astrologer.png" },
+    { name: "Priya S.", city: "London", img: "/whatsapp_reviews/r1.png" },
+    { name: "Anita K.", city: "Birmingham", img: "/whatsapp_reviews/r2.png" },
+    { name: "Sunita R.", city: "Manchester", img: "/whatsapp_reviews/r3.png" },
+    { name: "Meera P.", city: "Leicester", img: "/whatsapp_reviews/r4.png" },
 ];
 
 // ── Marquee Reviews ────────────────────────────────────────────────────────────
 
-export function MarqueeReviews({ onCardClick }) {
+export function MarqueeReviews({ onCardClick, className }) {
     const doubled = [...REVIEWS, ...REVIEWS];
 
     return (
-        <div className="relative overflow-hidden py-4 group">
+        <div className={`relative overflow-hidden py-4 group ${className}`}>
             {/* fade edges */}
             <div className="pointer-events-none absolute left-0 top-0 h-full w-20 z-10
                       bg-gradient-to-r from-[#0a110d] to-transparent" />

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Section, SectionBadge, SectionHeading } from "../ui"
 import { SERVICES } from "@/lib/data"
+import MobileCarousel from '../ui/MobileCarousel'
 
 const ServicesSection = () => {
     return (
@@ -11,18 +12,18 @@ const ServicesSection = () => {
 
             {/* background glows */}
             <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2
-                    w-[700px] h-[300px]
+                    w-175 h-75
                     bg-[radial-gradient(ellipse_at_top,rgba(30,107,48,0.14),transparent_70%)]" />
-            <div className="pointer-events-none absolute bottom-0 left-0 w-[350px] h-[350px]
+            <div className="pointer-events-none absolute bottom-0 left-0 w-87.5 h-87.5
                     bg-[radial-gradient(ellipse_at_bottom_left,rgba(30,107,48,0.1),transparent_70%)]" />
-            <div className="pointer-events-none absolute bottom-0 right-0 w-[350px] h-[350px]
+            <div className="pointer-events-none absolute bottom-0 right-0 w-87.5 h-87.5
                     bg-[radial-gradient(ellipse_at_bottom_right,rgba(30,107,48,0.1),transparent_70%)]" />
 
 
             {/* background glows */}
-            <div className="pointer-events-none absolute top-0 right-0 w-[500px] h-[500px]
+            <div className="pointer-events-none absolute top-0 right-0 w-125 h-125
                       bg-[radial-gradient(ellipse_at_top_right,rgba(30,107,48,0.16),transparent_65%)]" />
-            <div className="pointer-events-none absolute bottom-0 left-0 w-[400px] h-[400px]
+            <div className="pointer-events-none absolute bottom-0 left-0 w-100 h-100
                       bg-[radial-gradient(ellipse_at_bottom_left,rgba(30,107,48,0.12),transparent_65%)]" />
 
 
@@ -39,7 +40,9 @@ const ServicesSection = () => {
                 </div>
 
                 {/* Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <MobileCarousel autoInterval={5500}>
+
                     {SERVICES.map((s, i) => (
                         <a
                             key={i}
@@ -95,10 +98,12 @@ const ServicesSection = () => {
 
                             {/* bottom divider line that grows on hover */}
                             <div className="absolute bottom-0 left-6 right-6 h-px
-                              bg-gradient-to-r from-transparent via-[rgba(74,163,89,0.4)] to-transparent
+                              bg-linear-to-r from-transparent via-[rgba(74,163,89,0.4)] to-transparent
                               scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center" />
                         </a>
                     ))}
+
+                    </MobileCarousel>
                 </div>
             </div>
         </div>

@@ -1,25 +1,66 @@
 import React from 'react'
 
 const Footer = () => {
-    return (
-        <footer className="py-10 px-4 border-t border-gray-200/50 dark:border-white/10 bg-white dark:bg-[#0a0318]">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-linear-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">A</div>
-                    <span className="font-bold text-gray-900 dark:text-white" style={{ fontFamily: "var(--font-display)" }}>Acharya Ji</span>
-                </div>
-                <p className="text-xs text-gray-400 text-center">
-                    © 2024 Acharya Ji · London, United Kingdom · All consultations are private and confidential.
-                </p>
-                <div className="flex gap-4 text-xs text-gray-400">
-                    <a href="#" className="hover:text-pink-500 transition-colors">Privacy</a>
-                    <a href="#" className="hover:text-pink-500 transition-colors">Terms</a>
-                    <a href="#" className="hover:text-pink-500 transition-colors">Contact</a>
-                </div>
-            </div>
-        </footer>
+  return (
+    <footer className="relative overflow-hidden
+                       bg-[#060e08]
+                       border-t border-[rgba(74,163,89,0.15)]
+                       py-10 px-4">
 
-    )
+      {/* subtle top glow */}
+      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2
+                      w-150 h-px
+                      bg-linear-to-r from-transparent via-[rgba(74,163,89,0.5)] to-transparent" />
+
+      {/* bg radial bloom */}
+      <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2
+                      w-125 h-50
+                      bg-[radial-gradient(ellipse_at_bottom,rgba(20,80,34,0.14),transparent_70%)]" />
+
+      <div className="relative z-10 max-w-7xl mx-auto
+                      flex flex-col md:flex-row justify-between items-center gap-6">
+
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <polygon points="18,2 34,12 34,24 18,34 2,24 2,12"
+              fill="rgba(30,107,48,0.3)" stroke="rgba(93,207,114,0.55)" strokeWidth="1"/>
+            <polygon points="18,7 29,13.5 29,22.5 18,29 7,22.5 7,13.5"
+              fill="rgba(30,107,48,0.4)" stroke="rgba(93,207,114,0.3)" strokeWidth="0.5"/>
+            <circle cx="18" cy="18" r="3.5" fill="#5dcf72" opacity="0.9"/>
+          </svg>
+          <span className="font-['Cinzel',serif] text-sm font-semibold
+                           text-[#7ecc8f] tracking-[3px] uppercase">
+            Acharya Ji
+          </span>
+        </div>
+
+        {/* Copyright */}
+        <p className="text-[11px] text-[rgba(180,220,185,0.38)] text-center
+                      tracking-wide leading-relaxed">
+          © 2024 Acharya Ji · London, United Kingdom
+          <span className="mx-2 text-[rgba(74,163,89,0.3)]">·</span>
+          All consultations are private and confidential.
+        </p>
+
+        {/* Links */}
+        <div className="flex gap-5 text-[11px] tracking-widest uppercase">
+          {["Privacy", "Terms", "Contact"].map((l) => (
+            <a
+              key={l}
+              href="#"
+              className="text-[rgba(180,220,185,0.38)]
+                         hover:text-[#5dcf72]
+                         transition-colors duration-200"
+            >
+              {l}
+            </a>
+          ))}
+        </div>
+
+      </div>
+    </footer>
+  )
 }
 
 export default Footer

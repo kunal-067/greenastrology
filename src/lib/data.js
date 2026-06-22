@@ -11,12 +11,12 @@ export const REVIEWS = [
 ];
 
 export const GALLERY_ITEMS = [
-  { id: 1, aspect: "tall", bg: "from-pink-900 to-purple-900", label: "Sacred Yantra Ceremony" },
-  { id: 2, aspect: "wide", bg: "from-purple-900 to-violet-900", label: "Consultation Session" },
-  { id: 3, aspect: "square", bg: "from-violet-900 to-fuchsia-900", label: "Vedic Rituals" },
-  { id: 4, aspect: "square", bg: "from-fuchsia-900 to-pink-900", label: "Client Blessings" },
-  { id: 5, aspect: "tall", bg: "from-rose-900 to-purple-900", label: "Temple Prayers" },
-  { id: 6, aspect: "wide", bg: "from-amber-900 to-rose-900", label: "Success Ceremony" },
+  { id: 1, aspect: "tall", bg: "from-pink-900 to-purple-900", label: "Sacred Yantra Ceremony", img: "/gallery/img-c-1.jpg" },
+  { id: 2, aspect: "wide", bg: "from-purple-900 to-violet-900", label: "Consultation Session", img: "/gallery/img-c-2.jpg" },
+  { id: 3, aspect: "square", bg: "from-violet-900 to-fuchsia-900", label: "Vedic Rituals", img: "/gallery/img-c-3.jpg" },
+  { id: 4, aspect: "square", bg: "from-fuchsia-900 to-pink-900", label: "Client Blessings", img: "/gallery/img-c-4.jpg" },
+  { id: 5, aspect: "tall", bg: "from-rose-900 to-purple-900", label: "Temple Prayers", img: "/gallery/img-c-5.jpg" },
+  { id: 6, aspect: "wide", bg: "from-amber-900 to-rose-900", label: "Success Ceremony", img: "/gallery/img-c-7.jpg" },
 ];
 
 export const FAQS = [
@@ -38,10 +38,10 @@ export const SERVICES = [
 ];
 
 export const VIDEOS = [
-  { id: "dQw4w9WgXcQ", title: "Sarah from London — Love Restored After 2 Years" },
-  { id: "dQw4w9WgXcQ", title: "Kavya from Birmingham — Marriage Saved" },
-  { id: "dQw4w9WgXcQ", title: "Priya from Manchester — Found Love Again" },
-  { id: "dQw4w9WgXcQ", title: "Meena from Leeds — Breakup Healed" },
+  { id: "r8UsNNJu8vs", title: "Sarah from London — Love Restored After 2 Years" },
+  { id: "VvHDURBT0M0", title: "Kavya from Birmingham — Marriage Saved" },
+  { id: "st92HsjEHtU", title: "Priya from Manchester — Found Love Again" },
+  // { id: "dQw4w9WgXcQ", title: "Meena from Leeds — Breakup Healed" },
 ];
 
 
