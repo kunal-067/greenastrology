@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import ZodiacWheel from "./Zodiacwheel";
+import { MarqueeReviews } from "../sections/TrustBar";
 
 const NAV_LINKS = ["Home", "About Us", "Gallery", "Blogs", "Contact Us"];
 
@@ -107,9 +108,6 @@ export default function AstrologyHero() {
         .font-raleway { font-family:'Raleway',sans-serif; }
         .animate-counter-spin { animation: counterSpin 40s linear infinite; }
         .animate-pulse-glow   { animation: pulseGlow   4s  ease-in-out infinite; }
-        @media (prefers-reduced-motion:reduce) {
-          [class*="animate-"] { animation:none !important; }
-        }
       `}</style>
 
       <section className="font-raleway relative overflow-hidden min-h-screen" style={{ background: "#080f0a" }}>
@@ -190,6 +188,16 @@ export default function AstrologyHero() {
                   Contact Us
                 </button>
               </div>
+
+              {/* screen shots review */}
+              <div className="md:hidden">
+                <MarqueeReviews auto className="md:hidden" />
+                <p className="text-center text-[10px] tracking-widest uppercase
+                      text-[rgba(180,220,185,0.3)] mt-8">
+                  Hover to pause · Click any card to read full review
+                </p>
+              </div>
+
               {/* Stats */}
               <div className="flex gap-7 mt-8 pt-6 border-t border-green-900/40">
                 {[["15k+", "Happy Clients"], ["20+", "Years Exp"], ["98%", "Success Rate"]].map(([n, l]) => (
@@ -217,49 +225,49 @@ export default function AstrologyHero() {
 
             {/* FULL-WIDTH PHOTO — like reference screenshot */}
             <div className="mb-2">
-               <p className="flex items-center gap-3 text-[10px] tracking-[4px] uppercase text-green-500 mb-4">
+              <p className="flex items-center gap-3 text-[10px] tracking-[4px] uppercase text-green-500 mb-4">
                 <span className="inline-block w-5 h-px bg-green-600" />
                 Astrology &amp; Numerology
               </p>
-            
-            <div className="relative w-full rounded-2xl overflow-hidden"
-              style={{ aspectRatio: "4/5", background: "linear-gradient(160deg,#0d1f10,#05100a)" }}>
+
+              <div className="relative w-full rounded-2xl overflow-hidden"
+                style={{ aspectRatio: "4/5", background: "linear-gradient(160deg,#0d1f10,#05100a)" }}>
 
 
-              {/* Subtle zodiac ring overlay — purely decorative, doesn't interfere with photo */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-                <ZodiacWheel />
-              </div>
+                {/* Subtle zodiac ring overlay — purely decorative, doesn't interfere with photo */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+                  <ZodiacWheel />
+                </div>
 
-              {/* Photo */}
-              <img
-                src="/astrologer2-bgr.png"
-                alt="Acharya Ji — Vedic Astrologer"
-                className="absolute inset-0 w-full h-full object-cover object-top"
-                onError={e => { e.currentTarget.style.display = "none"; }}
-              />
+                {/* Photo */}
+                <img
+                  src="/astrologer2-bgr.png"
+                  alt="Acharya Ji — Vedic Astrologer"
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                  onError={e => { e.currentTarget.style.display = "none"; }}
+                />
 
-              {/* Bottom gradient */}
-              <div className="absolute inset-0"
-                style={{ background: "linear-gradient(to top,rgba(8,15,10,0.8) 0%,transparent 50%)" }} />
+                {/* Bottom gradient */}
+                <div className="absolute inset-0"
+                  style={{ background: "linear-gradient(to top,rgba(8,15,10,0.8) 0%,transparent 50%)" }} />
 
-              {/* Badge */}
-              <div className="absolute bottom-4 left-0 right-0 flex flex-col items-center z-10">
-                <span className="font-cinzel text-[13px] tracking-wide text-green-100">Acharya Ji</span>
-                <span className="text-[9px] tracking-[2px] uppercase text-green-500 mt-1">
-                  Love &amp; Relationship Specialist
-                </span>
-              </div>
+                {/* Badge */}
+                <div className="absolute bottom-4 left-0 right-0 flex flex-col items-center z-10">
+                  <span className="font-cinzel text-[13px] tracking-wide text-green-100">Acharya Ji</span>
+                  <span className="text-[9px] tracking-[2px] uppercase text-green-500 mt-1">
+                    Love &amp; Relationship Specialist
+                  </span>
+                </div>
 
-              {/* Tag top-right */}
-              <div className="absolute top-3 right-3 z-10
+                {/* Tag top-right */}
+                <div className="absolute top-3 right-3 z-10
                               px-3 py-1 rounded-full border border-green-600/50 bg-green-900/80
                               text-[9px] tracking-[1.5px] uppercase text-green-300 backdrop-blur-sm">
-                ✦ Vedic Expert
-              </div>
+                  ✦ Vedic Expert
+                </div>
 
-              {/* Stats row pinned at very bottom over gradient */}
-              {/* <div className="absolute bottom-14 left-0 right-0 flex justify-center gap-6 z-10">
+                {/* Stats row pinned at very bottom over gradient */}
+                {/* <div className="absolute bottom-14 left-0 right-0 flex justify-center gap-6 z-10">
                 {[["15k+","Clients"],["20+","Yrs Exp"],["98%","Success"]].map(([n,l])=>(
                   <div key={l} className="text-center">
                     <div className="font-cinzel text-lg font-bold" style={{color:"#5dcf72"}}>{n}</div>
@@ -267,7 +275,7 @@ export default function AstrologyHero() {
                   </div>
                 ))}
               </div> */}
-            </div>
+              </div>
 
             </div>
 

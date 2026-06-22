@@ -17,6 +17,7 @@ export function MarqueeReviews({ onCardClick, className }) {
 
     return (
         <div className={`relative overflow-hidden py-4 group ${className}`}>
+
             {/* fade edges */}
             <div className="pointer-events-none absolute left-0 top-0 h-full w-20 z-10
                       bg-gradient-to-r from-[#0a110d] to-transparent" />
@@ -29,7 +30,7 @@ export function MarqueeReviews({ onCardClick, className }) {
                         key={i}
                         onClick={() => onCardClick?.(r)}
                         className={cn(
-                            "shrink-0 w-64 h-44 rounded-2xl overflow-hidden text-left cursor-pointer",
+                            "shrink-0 max-md:h-45 max-md:w-37 w-64 h-44 rounded-2xl overflow-hidden text-left cursor-pointer",
                             "transition-all duration-300 hover:scale-[1.04] hover:-translate-y-1",
                             // cosmic card surface
                             "bg-[#0f1e12] border border-[rgba(74,163,89,0.2)]",
