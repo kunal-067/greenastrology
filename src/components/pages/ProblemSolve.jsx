@@ -125,7 +125,7 @@ export function ProblemsSolvedSection({
 
               {/* icon box */}
               <div
-                className="relative w-12 h-12 text-white rounded-xl flex items-center justify-center
+                className="relative w-12 h-12 text-[#5dcf72] rounded-xl flex items-center justify-center
                            text-2xl mb-4
                            bg-[rgba(30,107,48,0.2)]
                            border border-[rgba(74,163,89,0.25)]

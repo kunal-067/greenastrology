@@ -1,10 +1,9 @@
 'use client'
-import { WA_LINK } from "@/lib/constants";
+import { IG_LINK, WA_LINK } from "@/lib/constants";
 import { useInView } from "@/lib/hooks";
 import { useEffect } from "react";
 
 // ── SectionBadge ──────────────────────────────────────────────────────────────
-
 export function SectionBadge({ children }) {
   return (
     <div className="inline-flex items-center gap-2 mb-4
@@ -16,9 +15,7 @@ export function SectionBadge({ children }) {
     </div>
   );
 }
-
 // ── SectionHeading ─────────────────────────────────────────────────────────────
-
 export function SectionHeading({ title, subtitle, accent }) {
   return (
     <div className="text-center mb-6 md:mb-14">
@@ -46,7 +43,6 @@ export function SectionHeading({ title, subtitle, accent }) {
 }
 
 // ── Section ────────────────────────────────────────────────────────────────────
-
 export function Section({ children, className = "", id = "" }) {
   return (
     <section
@@ -57,6 +53,8 @@ export function Section({ children, className = "", id = "" }) {
     </section>
   );
 }
+
+
 
 export function Stars({ count = 5 }) {
   return (
@@ -70,7 +68,8 @@ export function Stars({ count = 5 }) {
   );
 }
 
-const IG_LINK = "https://instagram.com/your-handle-here";
+
+
 
 // ── Shared button shell ───────────────────────────────────────────────────────
 function FAB({ href, label, tooltip, bg, border, pingColor, shadow, children }) {
@@ -114,7 +113,6 @@ function FAB({ href, label, tooltip, bg, border, pingColor, shadow, children }) 
     </a>
   );
 }
-
 // ── WhatsApp ──────────────────────────────────────────────────────────────────
 export function FloatingWA() {
   return (
@@ -133,7 +131,6 @@ export function FloatingWA() {
     </FAB>
   );
 }
-
 // ── Instagram ─────────────────────────────────────────────────────────────────
 export function FloatingIG() {
   return (
@@ -159,7 +156,6 @@ export function FloatingIG() {
     </FAB>
   );
 }
-
 // ── Combined floating stack ───────────────────────────────────────────────────
 export function FloatingButtons() {
   return (
@@ -170,7 +166,7 @@ export function FloatingButtons() {
   );
 }
 
-export default FloatingButtons;
+
 
 export function WAIcon({ className = "w-5 h-5" }) {
   return (
@@ -242,7 +238,7 @@ export function Reveal({
 }
 
 /* ------ WhatsApp CTA button ------─ */
-export function WAButton({
+export function WAButton({ 
   href, children, size = "md", className = ""
 }) {
   const sz = size === "lg"

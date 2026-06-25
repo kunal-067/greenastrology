@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
-import { WA_LINK } from "@/lib/constants";
+import { IG_LINK, WA_LINK, FB_LINK, X_LINK, YT_LINK } from "@/lib/constants";
 
 const NAV_LINKS = [
   { name: "Love Back",           href: "/love-back"            },
@@ -13,10 +13,10 @@ const NAV_LINKS = [
 ];
 
 const SOCIAL = [
-  { label: "in", href: "#" },
-  { label: "f",  href: "#" },
-  { label: "x",  href: "#" },
-  { label: "yt", href: "#" },
+  { label: "in", href: IG_LINK },
+  { label: "f",  href: FB_LINK },
+  { label: "x",  href: X_LINK },
+  { label: "yt", href: YT_LINK },
 ];
 
 export default function Navbar() {
@@ -196,7 +196,7 @@ export default function Navbar() {
             {/* Social pills */}
             <div className="cn-social">
               {SOCIAL.map((s) => (
-                <a key={s.label} href={s.href} className="cn-pill" aria-label={s.label}>
+                <a key={s.label} href={s.href} target="_blank" className="cn-pill" aria-label={s.label}>
                   {s.label}
                 </a>
               ))}

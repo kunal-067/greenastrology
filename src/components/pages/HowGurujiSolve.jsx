@@ -1,4 +1,5 @@
-import {SectionEyebrow, SectionHeading, WAButton, GlassCard, StepConnector} from "@/components/pages/ui"
+import {SectionEyebrow, SectionHeading, GlassCard, StepConnector} from "@/components/pages/ui"
+import { WAButton } from "../ui";
 
 const GREEN1 = "#4db86a";
 const GREEN2 = "#9edaab";
@@ -98,7 +99,7 @@ export function HowGurujiSolvesIt({
             {sub}
           </p>
 
-          <WAButton className={` bg-[${GREEN1}]`} href={waLink}>{ctaLabel}</WAButton>
+          <WAButton  href={waLink}>{ctaLabel}</WAButton>
         </div>
 
         {/* ── Right — steps ── */}
@@ -121,7 +122,7 @@ export function HowGurujiSolvesIt({
                 className="absolute left-0 top-0 w-12 h-12 rounded-full
                            flex items-center justify-center text-xl
                            border-2 shadow-lg
-                           transition-all duration-300 text-white"
+                           transition-all duration-300 text-[#5dcf72]"
                 style={{
                   background: `linear-gradient(135deg, rgba(30,107,48,0.35), rgba(77,184,106,0.2))`,
                   borderColor: "rgba(74,163,89,0.5)",
