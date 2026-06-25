@@ -69,7 +69,7 @@ const TrustBar = () => {
     return (
         <div
             id="testimonials"
-            className="hidden md:block py-20
+            className="hidden md:block max-lg:py-7 py-16
                  bg-[#0a110d]
                  border-y border-[rgba(74,163,89,0.15)]
                  overflow-hidden relative"

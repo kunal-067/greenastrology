@@ -73,7 +73,7 @@ export function Stars({ count = 5 }) {
 const IG_LINK = "https://instagram.com/your-handle-here";
 
 // ── Shared button shell ───────────────────────────────────────────────────────
-function FAB({ href, label, tooltip, children }) {
+function FAB({ href, label, tooltip, bg, border, pingColor, shadow, children }) {
   return (
     <a
       href={href}
@@ -82,33 +82,33 @@ function FAB({ href, label, tooltip, children }) {
       aria-label={label}
       className="group relative flex items-center justify-center
                  w-14 h-14 rounded-full
-                 bg-[#0d1c10]
-                 border border-[rgba(74,163,89,0.35)]
-                 shadow-[0_4px_24px_rgba(6,14,8,0.7)]
                  hover:scale-110
-                 hover:border-[rgba(93,207,114,0.6)]
-                 hover:bg-[rgba(20,60,28,0.9)]
-                 hover:shadow-[0_0_32px_rgba(30,107,48,0.45)]
                  transition-all duration-300"
+      style={{
+        background: bg,
+        border: `0px solid ${border}`,
+        boxShadow: shadow,
+      }}
     >
-      {/* shared ping ring */}
-      <div className="absolute inset-0 rounded-full
-                      bg-[rgba(74,163,89,0.1)]
-                      animate-ping opacity-75" />
+      {/* ping ring */}
+      <div
+        className="absolute inset-0 rounded-full animate-ping opacity-40"
+        style={{ background: pingColor }}
+      />
 
-      {/* icon slot */}
-      <div className="relative z-10 text-[#5dcf72] group-hover:text-[#9edaab] transition-colors duration-300">
+      {/* icon */}
+      <div className="relative z-10">
         {children}
       </div>
 
-      {/* shared tooltip */}
+      {/* tooltip */}
       <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2
-                       bg-[#0d1c10] border border-[rgba(74,163,89,0.3)]
-                       text-[#9edaab] text-[10px] font-semibold tracking-widest uppercase
+                       bg-[#0d1c10] border border-[rgba(255,255,255,0.1)]
+                       text-white text-[10px] font-semibold tracking-widest uppercase
                        px-3 py-1.5 rounded-full whitespace-nowrap
                        opacity-0 group-hover:opacity-100 pointer-events-none
                        transition-opacity duration-200
-                       shadow-[0_0_16px_rgba(6,14,8,0.9)]">
+                       shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
         {tooltip}
       </span>
     </a>
@@ -118,34 +118,43 @@ function FAB({ href, label, tooltip, children }) {
 // ── WhatsApp ──────────────────────────────────────────────────────────────────
 export function FloatingWA() {
   return (
-    <FAB href={WA_LINK} label="Chat on WhatsApp" tooltip="Chat Now">
-      <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+    <FAB
+      href={WA_LINK}
+      label="Chat on WhatsApp"
+      tooltip="Chat Now"
+      bg="#25D366"
+      border="rgba(37,211,102,0.6)"
+      pingColor="rgba(37,211,102,0.5)"
+      shadow="0 0 20px rgba(37,211,102,0.45), 0 4px_24px rgba(0,0,0,0.4)"
+    >
+      <svg viewBox="0 0 24 24" fill="white" className="w-7 h-7">
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
       </svg>
     </FAB>
   );
 }
 
-export function WAIcon({ className = "w-5 h-5" }) {
-  return (
-    <svg viewBox="0 0 24 24" className={`${className} fill-current`}>
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
-  );
-}
 // ── Instagram ─────────────────────────────────────────────────────────────────
 export function FloatingIG() {
   return (
-    <FAB href={IG_LINK} label="Follow on Instagram" tooltip="Follow Us">
+    <FAB
+      href={IG_LINK}
+      label="Follow on Instagram"
+      tooltip="Follow Us"
+      bg="radial-gradient(circle at 30% 110%, #f9ce34 0%, #ee2a7b 40%, #6228d7 80%)"
+      border="rgba(238,42,123,0.5)"
+      pingColor="rgba(238,42,123,0.45)"
+      shadow="0 0 20px rgba(238,42,123,0.4), 0 4px 24px rgba(0,0,0,0.4)"
+    >
       <svg
         viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" strokeWidth="1.75"
+        stroke="white" strokeWidth="1.75"
         strokeLinecap="round" strokeLinejoin="round"
         className="w-6 h-6"
       >
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
         <circle cx="12" cy="12" r="4.5" />
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+        <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none" />
       </svg>
     </FAB>
   );
@@ -161,6 +170,15 @@ export function FloatingButtons() {
   );
 }
 
+export default FloatingButtons;
+
+export function WAIcon({ className = "w-5 h-5" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={`${className} fill-current`}>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  );
+}
 /* ------ Avatar circle ------─ */
 export function Avatar({ name, size = "md" }) {
   const sz = size === "lg" ? "w-14 h-14 text-lg" : size === "sm" ? "w-8 h-8 text-xs" : "w-10 h-10 text-sm";

@@ -3,56 +3,9 @@
 import { useEffect, useRef } from "react";
 import ZodiacWheel from "./Zodiacwheel";
 import { MarqueeReviews } from "../sections/TrustBar";
+import { IG_LINK, WA_LINK } from "@/lib/constants";
 
 const NAV_LINKS = ["Home", "About Us", "Gallery", "Blogs", "Contact Us"];
-
-const ZODIAC = ["♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓"];
-
-function ZodiacRing({ size }) {
-  const r = size / 2 - 22;
-  const cx = size / 2;
-  const cy = size / 2;
-  return (
-    <svg
-      width={size} height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      className="absolute inset-0 animate-[cosmicSpin_60s_linear_infinite]"
-      aria-hidden="true"
-    >
-      <circle cx={cx} cy={cy} r={size / 2 - 6} fill="none" stroke="rgba(77,184,106,0.18)" strokeWidth="1" />
-      <circle cx={cx} cy={cy} r={size / 2 - 14} fill="none" stroke="rgba(77,184,106,0.10)" strokeWidth="0.5" />
-      {Array.from({ length: 36 }).map((_, i) => {
-        const angle = (i * 10 * Math.PI) / 180;
-        const isMajor = i % 3 === 0;
-        const inner = size / 2 - (isMajor ? 20 : 16);
-        const outer = size / 2 - 6;
-        const cos = Math.cos(angle - Math.PI / 2);
-        const sin = Math.sin(angle - Math.PI / 2);
-        return (
-          <line key={i}
-            x1={cx + cos * inner} y1={cy + sin * inner}
-            x2={cx + cos * outer} y2={cy + sin * outer}
-            stroke={isMajor ? "rgba(77,184,106,0.4)" : "rgba(77,184,106,0.18)"}
-            strokeWidth={isMajor ? 1 : 0.5}
-          />
-        );
-      })}
-      {ZODIAC.map((sym, i) => {
-        const angle = (i * 30 * Math.PI) / 180 - Math.PI / 2;
-        return (
-          <text key={i}
-            x={cx + Math.cos(angle) * r}
-            y={cy + Math.sin(angle) * r}
-            textAnchor="middle" dominantBaseline="central"
-            fontSize="13" fill="rgba(126,204,143,0.7)"
-            style={{ fontFamily: "serif" }}
-          >{sym}</text>
-        );
-      })}
-      <circle cx={cx} cy={cy} r={size / 2 - 42} fill="none" stroke="rgba(77,184,106,0.12)" strokeWidth="0.5" strokeDasharray="4 6" />
-    </svg>
-  );
-}
 
 function OrbitDot() {
   return (
@@ -92,6 +45,10 @@ export default function AstrologyHero() {
     obs.observe(canvas.parentElement);
     return () => obs.disconnect();
   }, []);
+
+  function navigate(link) {
+    window.open(link, "_blank", "noopener,noreferrer");
+  }
 
   return (
     <>
@@ -163,7 +120,7 @@ export default function AstrologyHero() {
             <div>
               <p className="flex max-md:hidden items-center gap-3 text-[10px] tracking-[4px] uppercase text-green-500 mb-4">
                 <span className="inline-block w-5 h-px bg-green-600" />
-                Astrology &amp; Numerology
+                Best Astrologer in London
               </p>
               <h1 className="font-cinzel text-[clamp(28px,3.5vw,46px)] font-bold leading-[1.2] text-green-50 mb-5">
                 London's Most{" "}
@@ -177,15 +134,19 @@ export default function AstrologyHero() {
                 rebuild relationships, resolve marriage problems, and find love again — across the UK.
               </p>
               <div className="flex gap-3">
-                <button className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
+                <button
+                  onClick={() => navigate(WA_LINK)}
+                  className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
                                    bg-green-800 text-green-100 border-none cursor-pointer
                                    hover:bg-green-700 transition-colors">
-                  Read More
+                  WhatsApp us
                 </button>
-                <button className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
+                <button
+                  onClick={() => navigate(IG_LINK)}
+                  className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
                                    bg-transparent text-green-400 border border-green-700/50 cursor-pointer
                                    hover:border-green-500 transition-colors">
-                  Contact Us
+                  Instagram
                 </button>
               </div>
 
@@ -194,7 +155,7 @@ export default function AstrologyHero() {
                 <MarqueeReviews auto className="md:hidden" />
                 <p className="text-center text-[10px] tracking-widest uppercase
                       text-[rgba(180,220,185,0.3)] mt-8">
-                  Hover to pause · Click any card to read full review
+                  Click any card to read full review
                 </p>
               </div>
 
@@ -209,25 +170,11 @@ export default function AstrologyHero() {
               </div>
             </div>
 
-            {/* CTA row */}
-            {/* <div className="flex gap-3 mb-8">
-              <button className="font-raleway px-5 py-2.5 rounded-sm text-[10px] tracking-[2px] uppercase
-                                 bg-green-800 text-green-100 border-none cursor-pointer
-                                 hover:bg-green-700 transition-colors">
-                Read More
-              </button>
-              <button className="font-raleway px-5 py-2.5 rounded-sm text-[10px] tracking-[2px] uppercase
-                                 bg-transparent text-green-400 border border-green-700/50 cursor-pointer
-                                 hover:border-green-500 transition-colors">
-                Contact Us
-              </button>
-            </div> */}
-
             {/* FULL-WIDTH PHOTO — like reference screenshot */}
             <div className="mb-2">
               <p className="flex items-center gap-3 text-[10px] tracking-[4px] uppercase text-green-500 mb-4">
                 <span className="inline-block w-5 h-px bg-green-600" />
-                Astrology &amp; Numerology
+                Best Astrologer in London
               </p>
 
               <div className="relative w-full rounded-2xl overflow-hidden"
@@ -241,7 +188,7 @@ export default function AstrologyHero() {
 
                 {/* Photo */}
                 <img
-                  src="/astrologer2-bgr.png"
+                  src="/gallery/img-c-3.jpg"
                   alt="Acharya Ji — Vedic Astrologer"
                   className="absolute inset-0 w-full h-full object-cover object-top"
                   onError={e => { e.currentTarget.style.display = "none"; }}
@@ -288,7 +235,7 @@ export default function AstrologyHero() {
             <div>
               <p className="flex items-center gap-3 text-[10px] tracking-[4px] uppercase text-green-500 mb-4">
                 <span className="inline-block w-5 h-px bg-green-600" />
-                Astrology &amp; Numerology
+                Best Astrologer in London
               </p>
               <h1 className="font-cinzel text-[clamp(28px,3.5vw,46px)] font-bold leading-[1.2] text-green-50 mb-5">
                 London's Most{" "}
@@ -301,16 +248,21 @@ export default function AstrologyHero() {
                 <strong className="text-green-400">thousands</strong>{" "}
                 rebuild relationships, resolve marriage problems, and find love again — across the UK.
               </p>
+
               <div className="flex gap-3">
-                <button className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
+                <button
+                onClick={()=>navigate(WA_LINK)}
+                className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
                                    bg-green-800 text-green-100 border-none cursor-pointer
                                    hover:bg-green-700 transition-colors">
-                  Read More
+                  Whatsapp us
                 </button>
-                <button className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
+                <button
+                onClick={()=>navigate(IG_LINK)}
+                 className="font-raleway px-6 py-3 rounded-sm text-[11px] tracking-[2px] uppercase
                                    bg-transparent text-green-400 border border-green-700/50 cursor-pointer
                                    hover:border-green-500 transition-colors">
-                  Contact Us
+                  Instagram
                 </button>
               </div>
               {/* Stats */}
@@ -357,7 +309,7 @@ export default function AstrologyHero() {
                     background: "linear-gradient(160deg,#0d1f10,#05100a)"
                   }}
                 >
-                  <img src="/astrologer2-bgr.png" alt="Acharya Ji"
+                  <img src="/gallery/img-c-3.jpg" alt="Acharya Ji"
                     className="w-full h-full object-cover object-top block"
                     onError={e => { e.currentTarget.style.display = "none"; }} />
                   {/* gradient overlay */}

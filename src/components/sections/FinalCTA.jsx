@@ -4,7 +4,7 @@ import {WA_LINK} from "@/lib/constants";
 
 const FinalCTA = () => {
   return (
-    <div className="relative py-28 px-4 overflow-hidden bg-[#0a110d]">
+    <div className="relative max-lg:py-8 py-18 px-4 overflow-hidden bg-[#0a110d]">
 
       {/* ── Background glows ── */}
       <div className="absolute inset-0 pointer-events-none">

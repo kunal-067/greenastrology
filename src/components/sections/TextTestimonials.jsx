@@ -55,7 +55,7 @@ const ReviewCard = ({ r }) => (
 
 // ── Section ───────────────────────────────────────────────────────────────────
 export const TextTestimonials = ({ reviews = REVIEWS }) => (
-  <div className="py-20 px-4
+  <div className="max-lg:py-7 py-16 px-4
                   bg-[#0a110d]
                   border-y border-[rgba(74,163,89,0.15)]
                   relative overflow-hidden">

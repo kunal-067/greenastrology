@@ -21,7 +21,7 @@ export const AboutSection = () => {
 
         .about-section {
           background: #0a110d;
-          padding: 96px 8px;
+          padding: 78px 8px;
           font-family: 'Raleway', sans-serif;
           position: relative;
           overflow: hidden;
@@ -296,7 +296,7 @@ export const AboutSection = () => {
 
         /* RESPONSIVE */
         @media (max-width: 900px) {
-          .about-section { padding: 64px 24px; }
+          .about-section { padding: 34px 24px; }
           .about-inner { grid-template-columns: 1fr; gap: 60px; }
           .about-heading { font-size: 30px; }
           .about-img-frame { max-width: 280px; }

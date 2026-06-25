@@ -12,7 +12,7 @@ const GallerySection = () => {
 
   return (
     <>
-      <div className="py-20 px-4
+      <div className="max-lg:py-7 py-16 px-4
                   bg-[#0a110d]
                   border-y border-[rgba(74,163,89,0.15)]
                   relative overflow-hidden">
@@ -39,8 +39,8 @@ const GallerySection = () => {
           <div className="text-center mb-14">
             <SectionBadge>Gallery</SectionBadge>
             <SectionHeading
-              title="Sacred Moments &"
-              accent="Ceremonies"
+              title="World"
+              accent="Tour"
               subtitle="A glimpse into the spiritual world of Acharya Ji."
             />
           </div>

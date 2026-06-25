@@ -11,7 +11,7 @@ const logos = [
 
 export function FeaturedOn() {
   return (
-     <div className="py-20 px-4
+     <div className="max-lg:py-8 py-16 px-4
                   bg-[#0a110d]
                   border-y border-[rgba(74,163,89,0.15)]
                   relative overflow-hidden">

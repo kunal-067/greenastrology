@@ -6,11 +6,10 @@ import { WA_LINK } from "@/lib/constants";
 
 const NAV_LINKS = [
   { name: "Love Back",           href: "/love-back"            },
-  { name: "Relationship Issues", href: "/relationship-problems" },
+  { name: "Breakup", href: "/breakup-problem" },
   { name: "Divorce Guidance",    href: "/divorce-problem"       },
-  { name: "Testimonials",        href: "#testimonials"          },
-  { name: "Gallery",             href: "#gallery"               },
-  { name: "FAQ",                 href: "#faq"                   },
+  { name: "Love Spell",        href: "/love-spell"          },
+  { name: "Marriage",             href: "/marriage-problem"               }
 ];
 
 const SOCIAL = [
