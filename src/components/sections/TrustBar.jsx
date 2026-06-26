@@ -1,9 +1,10 @@
 'use client'
 
 import { cn } from "@/lib/utils";
-import { SectionBadge, SectionHeading } from "../ui";
+import { ReviewModal } from "../shared/Modals";
+import { useState } from "react";
 
-const REVIEWS = [
+export const SS_REVIEWS = [
     { name: "Priya S.", city: "London", img: "/whatsapp_reviews/r1.png" },
     { name: "Anita K.", city: "Birmingham", img: "/whatsapp_reviews/r2.png" },
     { name: "Sunita R.", city: "Manchester", img: "/whatsapp_reviews/r3.png" },
@@ -13,53 +14,63 @@ const REVIEWS = [
 // ── Marquee Reviews ────────────────────────────────────────────────────────────
 
 export function MarqueeReviews({ onCardClick, className }) {
-    const doubled = [...REVIEWS, ...REVIEWS];
+    const doubled = [...SS_REVIEWS, ...SS_REVIEWS];
+    const [reviewModal, setReviewModal] = useState(null);
+    const [reviewIdx, setReviewIdx] = useState(0);
+
+
+    const openModal = (i) => { setReviewModal(true); setReviewIdx(i); };
+
 
     return (
-        <div className={`relative overflow-hidden py-4 group ${className}`}>
+        <>
+            <div className={`relative overflow-hidden py-4 group ${className}`}>
 
-            {/* fade edges */}
-            <div className="pointer-events-none absolute left-0 top-0 h-full w-20 z-10
+                {/* fade edges */}
+                <div className="pointer-events-none absolute left-0 top-0 h-full w-20 z-10
                       bg-gradient-to-r from-[#0a110d] to-transparent" />
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-20 z-10
+                <div className="pointer-events-none absolute right-0 top-0 h-full w-20 z-10
                       bg-gradient-to-l from-[#0a110d] to-transparent" />
 
-            <div className="flex gap-4 w-max animate-marquee group-hover:[animation-play-state:paused]">
-                {doubled.map((r, i) => (
-                    <button
-                        key={i}
-                        onClick={() => onCardClick?.(r)}
-                        className={cn(
-                            "shrink-0 max-md:h-45 max-md:w-37 w-64 h-44 rounded-2xl overflow-hidden text-left cursor-pointer",
-                            "transition-all duration-300 hover:scale-[1.04] hover:-translate-y-1",
-                            // cosmic card surface
-                            "bg-[#0f1e12] border border-[rgba(74,163,89,0.2)]",
-                            "hover:border-[rgba(93,207,114,0.55)] hover:shadow-[0_0_24px_rgba(77,184,106,0.15)]",
-                            "relative group/card"
-                        )}
-                    >
-                        {/* subtle inner glow on hover */}
-                        <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300
+                <div className="flex gap-4 w-max animate-marquee group-hover:[animation-play-state:paused]">
+                    {doubled.map((r, i) => (
+                        <button
+                            key={i}
+                            onClick={() => openModal(i)}
+                            className={cn(
+                                "shrink-0 max-md:h-45 max-md:w-37 w-64 h-44 rounded-2xl overflow-hidden text-left cursor-pointer",
+                                "transition-all duration-300 hover:scale-[1.04] hover:-translate-y-1",
+                                // cosmic card surface
+                                "bg-[#0f1e12] border border-[rgba(74,163,89,0.2)]",
+                                "hover:border-[rgba(93,207,114,0.55)] hover:shadow-[0_0_24px_rgba(77,184,106,0.15)]",
+                                "relative group/card"
+                            )}
+                        >
+                            {/* subtle inner glow on hover */}
+                            <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300
                             bg-[radial-gradient(ellipse_at_top,rgba(30,107,48,0.18),transparent_70%)] pointer-events-none" />
 
-                        <div className="w-full h-full overflow-hidden rounded-2xl">
-                            <img
-                                src={r.img}
-                                alt={`Review from ${r.name}, ${r.city}`}
-                                className="w-full h-full object-cover object-top"
-                            />
-                        </div>
+                            <div className="w-full h-full overflow-hidden rounded-2xl">
+                                <img
+                                    src={r.img}
+                                    alt={`Review from ${r.name}, ${r.city}`}
+                                    className="w-full h-full object-cover object-top"
+                                />
+                            </div>
 
-                        {/* name + city overlay at bottom */}
-                        <div className="absolute bottom-0 left-0 right-0 px-3 py-2
+                            {/* name + city overlay at bottom */}
+                            <div className="absolute bottom-0 left-0 right-0 px-3 py-2
                             bg-gradient-to-t from-[rgba(10,17,13,0.9)] to-transparent">
-                            <p className="text-[11px] font-semibold text-[#9edaab] leading-none">{r.name}</p>
-                            <p className="text-[10px] text-[rgba(180,220,185,0.5)] mt-0.5">{r.city}</p>
-                        </div>
-                    </button>
-                ))}
+                                <p className="text-[11px] font-semibold text-[#9edaab] leading-none">{r.name}</p>
+                                <p className="text-[10px] text-[rgba(180,220,185,0.5)] mt-0.5">{r.city}</p>
+                            </div>
+                        </button>
+                    ))}
+                </div>
+
             </div>
-        </div>
+            <ReviewModal reviewModal={reviewModal} setReviewModal={setReviewModal} reviewIdx={reviewIdx} setReviewIdx={setReviewIdx} />
+        </>
     );
 }
 
@@ -105,7 +116,7 @@ const TrustBar = () => {
                 </div>
 
                 {/* Marquee */}
-                <MarqueeReviews onCardClick={(r) => console.log("clicked", r)} />
+                <MarqueeReviews />
 
                 {/* Footer hint */}
                 <p className="text-center text-[10px] tracking-widest uppercase
@@ -113,6 +124,7 @@ const TrustBar = () => {
                     Hover to pause · Click any card to read full review
                 </p>
             </div>
+
         </div>
     );
 };

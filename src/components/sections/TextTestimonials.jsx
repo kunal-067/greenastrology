@@ -38,12 +38,13 @@ const ReviewCard = ({ r }) => (
 
     {/* author */}
     <div className="relative flex items-center gap-3">
-      <div className="w-9 h-9 rounded-full shrink-0
+      <div className="w-9 h-9 rounded-full shrink-0 overflow-hidden
                       bg-[rgba(30,107,48,0.35)]
                       border border-[rgba(74,163,89,0.4)]
                       flex items-center justify-center
                       font-['Cinzel',serif] text-sm font-bold text-[#5dcf72]">
-        {r.name[0]}
+        {/* {r.name[0]} */}
+        <img src={r?.pp} alt={r.name} className='w-full h-full blur-[1px]' />
       </div>
       <div>
         <p className="text-sm font-semibold text-[#c8eecf]">{r.name}</p>
