@@ -5,17 +5,17 @@ import { Menu, X, ArrowRight } from "lucide-react";
 import { IG_LINK, WA_LINK, FB_LINK, X_LINK, YT_LINK } from "@/lib/constants";
 
 const NAV_LINKS = [
-  { name: "Love Back",           href: "/love-back"            },
+  { name: "Love Back", href: "/love-back" },
   { name: "Breakup", href: "/breakup-problem" },
-  { name: "Divorce Guidance",    href: "/divorce-problem"       },
-  { name: "Love Spell",        href: "/love-spell"          },
-  { name: "Marriage",             href: "/marriage-problem"               }
+  { name: "Divorce Guidance", href: "/divorce-problem" },
+  { name: "Love Spell", href: "/love-spell" },
+  { name: "Marriage", href: "/marriage-problem" }
 ];
 
 const SOCIAL = [
   { label: "in", href: IG_LINK },
-  { label: "f",  href: FB_LINK },
-  { label: "x",  href: X_LINK },
+  { label: "f", href: FB_LINK },
+  { label: "x", href: X_LINK },
   { label: "yt", href: YT_LINK },
 ];
 
@@ -174,13 +174,16 @@ export default function Navbar() {
 
           {/* Logo */}
           <a href="/" className="cn-logo">
-            <svg width="32" height="32" viewBox="0 0 34 34" fill="none">
+            <div className=" size-8 overflow-hidden rounded-xl flex items-center justify-center">
+              <img src="/logo.jpeg" alt="logo" className="h-full w-full" />
+            </div>
+            {/* <svg width="32" height="32" viewBox="0 0 34 34" fill="none">
               <rect x="17" y="1" width="22" height="22" rx="2" transform="rotate(45 17 1)"
                 fill="rgba(30,107,48,0.35)" stroke="rgba(93,207,114,0.65)" strokeWidth="1"/>
               <rect x="17" y="7" width="14" height="14" rx="1" transform="rotate(45 17 7)"
                 fill="rgba(93,207,114,0.2)" stroke="rgba(93,207,114,0.4)" strokeWidth="0.5"/>
               <circle cx="17" cy="17" r="3" fill="#5dcf72"/>
-            </svg>
+            </svg> */}
             <span className="cn-logo-name">Acharya Ji</span>
           </a>
 
@@ -254,7 +257,7 @@ export default function Navbar() {
           ))}
 
           {/* social row inside sidebar */}
-          <div style={{ display:"flex", gap:"8px", padding:"20px 24px 0" }}>
+          <div style={{ display: "flex", gap: "8px", padding: "20px 24px 0" }}>
             {SOCIAL.map((s) => (
               <a key={s.label} href={s.href} className="cn-pill" aria-label={s.label}>
                 {s.label}

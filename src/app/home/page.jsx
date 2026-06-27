@@ -29,11 +29,12 @@ export default function AcharyaJiLanding() {
       {/* --- TRUST / REVIEWS MARQUEE --- */}
       <TrustBar />
 
-      <ProblemsSolver/>
 
       {/* --- VIDEO TESTIMONIALS --- */}
       <VideoTestimonials />
 
+      <ProblemsSolver/>
+      
        {/* --- ABOUT --- */}
       <AboutSection />
 

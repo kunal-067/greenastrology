@@ -318,7 +318,7 @@ export const AboutSection = () => {
 
             <div className="about-img-frame">
               <div className="about-img-inner">
-                <img src="./astrologer2-bgr.png" alt="Acharya Ji" />
+                <img src="./gallery/img-c-6.jpg" alt="Acharya Ji" />
               </div>
             </div>
 
